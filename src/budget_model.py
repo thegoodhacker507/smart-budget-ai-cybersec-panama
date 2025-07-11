@@ -278,66 +278,6 @@ class BudgetNeuralNetwork:
             return "Modelo no construido"
         
         return self.model.summary()
-    
-    def plot_training_history(self):
-        """
-        Grafica la historia del entrenamiento
-        
-        Returns:
-            matplotlib.figure.Figure: Figura con los gráficos
-        """
-        if self.history is None:
-            raise ValueError("No hay historia de entrenamiento disponible")
-        
-        import matplotlib.pyplot as plt
-        
-        fig, axes = plt.subplots(2, 2, figsize=(12, 8))
-        fig.suptitle('Historia del Entrenamiento - Smart Budget AI', fontsize=16)
-        
-        # Loss
-        axes[0, 0].plot(self.history.history['loss'], label='Entrenamiento')
-        if 'val_loss' in self.history.history:
-            axes[0, 0].plot(self.history.history['val_loss'], label='Validación')
-        axes[0, 0].set_title('Pérdida (Loss)')
-        axes[0, 0].set_xlabel('Época')
-        axes[0, 0].set_ylabel('MSE')
-        axes[0, 0].legend()
-        axes[0, 0].grid(True)
-        
-        # MAE
-        axes[0, 1].plot(self.history.history['mae'], label='Entrenamiento')
-        if 'val_mae' in self.history.history:
-            axes[0, 1].plot(self.history.history['val_mae'], label='Validación')
-        axes[0, 1].set_title('Error Absoluto Medio')
-        axes[0, 1].set_xlabel('Época')
-        axes[0, 1].set_ylabel('MAE')
-        axes[0, 1].legend()
-        axes[0, 1].grid(True)
-        
-        # MAPE
-        axes[1, 0].plot(self.history.history['mape'], label='Entrenamiento')
-        if 'val_mape' in self.history.history:
-            axes[1, 0].plot(self.history.history['val_mape'], label='Validación')
-        axes[1, 0].set_title('Error Porcentual Absoluto Medio')
-        axes[1, 0].set_xlabel('Época')
-        axes[1, 0].set_ylabel('MAPE (%)')
-        axes[1, 0].legend()
-        axes[1, 0].grid(True)
-        
-        # Learning Rate (si está disponible)
-        if hasattr(self.model.optimizer, 'learning_rate'):
-            lr_values = [self.model.optimizer.learning_rate.numpy()] * len(self.history.history['loss'])
-            axes[1, 1].plot(lr_values)
-            axes[1, 1].set_title('Tasa de Aprendizaje')
-            axes[1, 1].set_xlabel('Época')
-            axes[1, 1].set_ylabel('Learning Rate')
-            axes[1, 1].grid(True)
-        else:
-            axes[1, 1].text(0.5, 0.5, 'Learning Rate\nno disponible', 
-                           ha='center', va='center', transform=axes[1, 1].transAxes)
-        
-        plt.tight_layout()
-        return fig
 
 class BudgetPredictor:
     """
