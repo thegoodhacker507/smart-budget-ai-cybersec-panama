@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Budget AI - Asesor Financiero Inteligente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --light-bg: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(44, 62, 80, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .score-excellent { color: var(--success-color); }
+        .score-good { color: var(--warning-color); }
+        .score-poor { color: var(--accent-color); }
+
+        .risk-low { 
+            background: linear-gradient(135deg, #d5f4e6, #a8e6cf);
+            color: #27ae60;
+        }
+        .risk-medium { 
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            color: #e17055;
+        }
+        .risk-high { 
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: #d63031;
+        }
+
+        .recommendation-item {
+            background: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 2rem 0;
+        }
+
+        .goal-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--success-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .goal-priority-high { border-left-color: var(--accent-color); }
+        .goal-priority-medium { border-left-color: var(--warning-color); }
+        .goal-priority-low { border-left-color: var(--success-color); }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .main-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-brain me-2"></i>Smart Budget AI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#analisis">Análisis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#resultados">Resultados</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="main-container">
+            <!-- Hero Section -->
+            <div class="hero-section" id="inicio">
+                <h1><i class="fas fa-chart-line me-3"></i>Smart Budget AI</h1>
+                <p class="lead">Tu asesor financiero inteligente powered by Deep Learning</p>
+                <p>Obtén recomendaciones personalizadas para optimizar tu presupuesto y alcanzar tus metas financieras</p>
+            </div>
+
+            <!-- Formulario de Análisis -->
+            <div class="form-section" id="analisis">
+                <h2 class="text-center mb-4">
+                    <i class="fas fa-calculator me-2"></i>Análisis Financiero Personalizado
+                </h2>
+                
+                <form id="budgetForm">
+                    <div class="row">
+                        <!-- Información Básica -->
+                        <div class="col-md-6">
+                            <h4 class="mb-3"><i class="fas fa-user me-2"></i>Información Personal</h4>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Edad</label>
+                                <input type="number" class="form-control" name="edad" min="18" max="100" value="30" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Número de Dependientes</label>
+                                <input type="number" class="form-control" name="dependientes" min="0" max="10" value="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Nivel de Educación</label>
+                                <select class="form-select" name="educacion" required>
+                                    <option value="Secundaria">Secundaria</option>
+                                    <option value="Universidad" selected>Universidad</option>
+                                    <option value="Posgrado">Posgrado</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Estado Civil</label>
+                                <select class="form-select" name="estado_civil" required>
+                                    <option value="Soltero" selected>Soltero</option>
+                                    <option value="Casado">Casado</option>
+                                    <option value="Divorciado">Divorciado</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Tipo de Empleo</label>
+                                <select class="form-select" name="tipo_empleo" required>
+                                    <option value="Tiempo_completo" selected>Tiempo Completo</option>
+                                    <option value="Medio_tiempo">Medio Tiempo</option>
+                                    <option value="Freelance">Freelance</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Años de Experiencia Laboral</label>
+                                <input type="number" class="form-control" name="experiencia_laboral" min="0" max="50" value="5">
+                            </div>
+                        </div>
+
+                        <!-- Información Financiera -->
+                        <div class="col-md-6">
+                            <h4 class="mb-3"><i class="fas fa-dollar-sign me-2"></i>Información Financiera</h4>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Ingresos Mensuales ($)</label>
+                                <input type="number" class="form-control" name="ingresos_mensuales" min="0" step="0.01" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Gastos Fijos Mensuales ($)</label>
+                                <input type="number" class="form-control" name="gastos_fijos" min="0" step="0.01" required>
+                                <small class="form-text text-muted">Renta, hipoteca, seguros, etc.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Gastos Variables Mensuales ($)</label>
+                                <input type="number" class="form-control" name="gastos_variables" min="0" step="0.01" required>
+                                <small class="form-text text-muted">Comida, entretenimiento, compras, etc.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Ahorros Actuales ($)</label>
+                                <input type="number" class="form-control" name="ahorros_actuales" min="0" step="0.01" value="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">¿Tienes deudas?</label>
+                                <select class="form-select" name="tiene_deudas" onchange="toggleDebtAmount()">
+                                    <option value="0" selected>No</option>
+                                    <option value="1">Sí</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="debtAmountGroup" style="display: none;">
+                                <label class="form-label">Monto Total de Deudas ($)</label>
+                                <input type="number" class="form-control" name="monto_deudas" min="0" step="0.01" value="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Score Crediticio</label>
+                                <input type="number" class="form-control" name="score_crediticio" min="300" max="850" value="650">
+                                <small class="form-text text-muted">Rango: 300-850</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gastos Detallados -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h4 class="mb-3"><i class="fas fa-list me-2"></i>Gastos Detallados (Opcional)</h4>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Entretenimiento ($)</label>
+                                <input type="number" class="form-control" name="gastos_entretenimiento" min="0" step="0.01" value="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Salud ($)</label>
+                                <input type="number" class="form-control" name="gastos_salud" min="0" step="0.01" value="0">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Transporte ($)</label>
+                                <input type="number" class="form-control" name="gastos_transporte" min="0" step="0.01" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-secondary me-3" onclick="loadExample()">
+                            <i class="fas fa-magic me-2"></i>Cargar Ejemplo
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-chart-bar me-2"></i>Analizar Presupuesto
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div class="loading-spinner" id="loadingSpinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Analizando...</span>
+                </div>
+                <p class="mt-3">Analizando tu situación financiera con IA...</p>
+            </div>
+
+            <!-- Resultados -->
+            <div class="results-section" id="resultados">
+                <!-- Métricas Principales -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h2 class="text-center mb-4">
+                            <i class="fas fa-chart-pie me-2"></i>Análisis de tu Situación Financiera
+                        </h2>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <div class="metric-value" id="budgetRecommendation">$0</div>
+                            <div class="metric-label">Presupuesto Recomendado</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <div class="metric-value" id="healthScore">0</div>
+                            <div class="metric-label">Score de Salud Financiera</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="metric-card" id="riskCard">
+                            <div class="metric-value" id="riskLevel">Bajo</div>
+                            <div class="metric-label">Nivel de Riesgo</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <div class="metric-value" id="savingsRate">0%</div>
+                            <div class="metric-label">Tasa de Ahorro</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-section">
+                            <h4 class="text-center mb-3">Distribución del Presupuesto</h4>
+                            <div class="chart-container">
+                                <canvas id="budgetChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-section">
+                            <h4 class="text-center mb-3">Ratios Financieros</h4>
+                            <div class="chart-container">
+                                <canvas id="ratiosChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recomendaciones -->
+                <div class="form-section">
+                    <h4><i class="fas fa-lightbulb me-2"></i>Recomendaciones Personalizadas</h4>
+                    <div id="recommendationsList"></div>
+                </div>
+
+                <!-- Fortalezas y Debilidades -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-section">
+                            <h4><i class="fas fa-thumbs-up me-2 text-success"></i>Fortalezas</h4>
+                            <div id="strengthsList"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-section">
+                            <h4><i class="fas fa-exclamation-triangle me-2 text-warning"></i>Áreas de Mejora</h4>
+                            <div id="weaknessesList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metas Financieras -->
+                <div class="form-section">
+                    <h4><i class="fas fa-target me-2"></i>Metas Financieras Sugeridas</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>Corto Plazo (1-6 meses)</h5>
+                            <div id="shortTermGoals"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Mediano Plazo (6 meses - 2 años)</h5>
+                            <div id="mediumTermGoals"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Largo Plazo (2+ años)</h5>
+                            <div id="longTermGoals"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Variables globales
+        let budgetChart = null;
+        let ratiosChart = null;
+
+        // Función para mostrar/ocultar monto de deudas
+        function toggleDebtAmount() {
+            const hasDebt = document.querySelector('select[name="tiene_deudas"]').value;
+            const debtGroup = document.getElementById('debtAmountGroup');
+            
+            if (hasDebt === '1') {
+                debtGroup.style.display = 'block';
+                document.querySelector('input[name="monto_deudas"]').required = true;
+            } else {
+                debtGroup.style.display = 'none';
+                document.querySelector('input[name="monto_deudas"]').required = false;
+                document.querySelector('input[name="monto_deudas"]').value = '0';
+            }
+        }
+
+        // Función para cargar datos de ejemplo
+        function loadExample() {
+            const exampleData = {
+                edad: 28,
+                dependientes: 1,
+                educacion: 'Universidad',
+                estado_civil: 'Casado',
+                tipo_empleo: 'Tiempo_completo',
+                experiencia_laboral: 5,
+                ingresos_mensuales: 3500,
+                gastos_fijos: 1800,
+                gastos_variables: 900,
+                ahorros_actuales: 8000,
+                tiene_deudas: 1,
+                monto_deudas: 5000,
+                score_crediticio: 720,
+                gastos_entretenimiento: 250,
+                gastos_salud: 180,
+                gastos_transporte: 350
+            };
+
+            // Llenar el formulario con datos de ejemplo
+            Object.keys(exampleData).forEach(key => {
+                const element = document.querySelector(`[name="${key}"]`);
+                if (element) {
+                    element.value = exampleData[key];
+                }
+            });
+
+            // Mostrar campo de deudas si es necesario
+            toggleDebtAmount();
+        }
+
+        // Función para mostrar resultados
+        function displayResults(data) {
+            // Actualizar métricas principales
+            document.getElementById('budgetRecommendation').textContent = 
+                `$${data.recommended_budget.toLocaleString()}`;
+            
+            const score = data.financial_analysis.overall_score;
+            document.getElementById('healthScore').textContent = `${score}/100`;
+            document.getElementById('healthScore').className = 
+                `metric-value ${score >= 80 ? 'score-excellent' : score >= 60 ? 'score-good' : 'score-poor'}`;
+            
+            const riskLevel = data.financial_analysis.risk_level;
+            document.getElementById('riskLevel').textContent = riskLevel;
+            const riskCard = document.getElementById('riskCard');
+            riskCard.className = `metric-card risk-${riskLevel.toLowerCase()}`;
+            
+            const savingsRate = (data.financial_analysis.ratios.monthly_savings_rate * 100).toFixed(1);
+            document.getElementById('savingsRate').textContent = `${savingsRate}%`;
+
+            // Crear gráfico de presupuesto
+            createBudgetChart(data.budget_plan.distribution);
+            
+            // Crear gráfico de ratios
+            createRatiosChart(data.financial_analysis.ratios);
+
+            // Mostrar recomendaciones
+            displayRecommendations(data.financial_analysis.recommendations);
+            
+            // Mostrar fortalezas y debilidades
+            displayStrengthsWeaknesses(
+                data.financial_analysis.strengths, 
+                data.financial_analysis.weaknesses
+            );
+            
+            // Mostrar metas financieras
+            displayFinancialGoals(data.financial_goals);
+
+            // Mostrar sección de resultados
+            document.getElementById('resultados').style.display = 'block';
+            
+            // Scroll a resultados
+            document.getElementById('resultados').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Función para crear gráfico de presupuesto
+        function createBudgetChart(distribution) {
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            
+            if (budgetChart) {
+                budgetChart.destroy();
+            }
+
+            const labels = Object.keys(distribution).map(key => 
+                key.charAt(0).toUpperCase() + key.slice(1).replace('_', ' ')
+            );
+            const values = Object.values(distribution);
+
+            budgetChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: [
+                            '#FF6B6B', '#4ECDC4', '#45B7D1', 
+                            '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Función para crear gráfico de ratios
+        function createRatiosChart(ratios) {
+            const ctx = document.getElementById('ratiosChart').getContext('2d');
+            
+            if (ratiosChart) {
+                ratiosChart.destroy();
+            }
+
+            ratiosChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Gastos/Ingresos', 'Deuda/Ingresos', 'Tasa Ahorro', 'Fondo Emergencia'],
+                    datasets: [{
+                        label: 'Ratios Actuales',
+                        data: [
+                            ratios.expense_to_income * 100,
+                            ratios.debt_to_income * 100,
+                            ratios.monthly_savings_rate * 100,
+                            Math.min(ratios.emergency_fund_months / 6 * 100, 100)
+                        ],
+                        backgroundColor: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'],
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Función para mostrar recomendaciones
+        function displayRecommendations(recommendations) {
+            const container = document.getElementById('recommendationsList');
+            container.innerHTML = '';
+
+            recommendations.forEach(rec => {
+                const div = document.createElement('div');
+                div.className = 'recommendation-item';
+                div.innerHTML = `<i class="fas fa-arrow-right me-2"></i>${rec}`;
+                container.appendChild(div);
+            });
+        }
+
+        // Función para mostrar fortalezas y debilidades
+        function displayStrengthsWeaknesses(strengths, weaknesses) {
+            const strengthsContainer = document.getElementById('strengthsList');
+            const weaknessesContainer = document.getElementById('weaknessesList');
+
+            strengthsContainer.innerHTML = '';
+            weaknessesContainer.innerHTML = '';
+
+            strengths.forEach(strength => {
+                const div = document.createElement('div');
+                div.className = 'recommendation-item';
+                div.style.borderLeftColor = '#27ae60';
+                div.innerHTML = `<i class="fas fa-check me-2 text-success"></i>${strength}`;
+                strengthsContainer.appendChild(div);
+            });
+
+            weaknesses.forEach(weakness => {
+                const div = document.createElement('div');
+                div.className = 'recommendation-item';
+                div.style.borderLeftColor = '#e74c3c';
+                div.innerHTML = `<i class="fas fa-times me-2 text-danger"></i>${weakness}`;
+                weaknessesContainer.appendChild(div);
+            });
+        }
+
+        // Función para mostrar metas financieras
+        function displayFinancialGoals(goals) {
+            const containers = {
+                'short_term': document.getElementById('shortTermGoals'),
+                'medium_term': document.getElementById('mediumTermGoals'),
+                'long_term': document.getElementById('longTermGoals')
+            };
+
+            Object.keys(containers).forEach(term => {
+                const container = containers[term];
+                container.innerHTML = '';
+
+                if (goals[term] && goals[term].length > 0) {
+                    goals[term].forEach(goal => {
+                        const div = document.createElement('div');
+                        div.className = `goal-item goal-priority-${goal.priority.toLowerCase()}`;
+                        div.innerHTML = `
+                            <h6>${goal.goal}</h6>
+                            <p><strong>Meta:</strong> $${goal.target_amount.toLocaleString()}</p>
+                            <p><strong>Plazo:</strong> ${goal.timeline_months} meses</p>
+                            <p><strong>Ahorro mensual requerido:</strong> $${goal.monthly_required.toLocaleString()}</p>
+                            <span class="badge bg-${goal.priority === 'Alta' ? 'danger' : goal.priority === 'Media' ? 'warning' : 'success'}">
+                                ${goal.priority} Prioridad
+                            </span>
+                        `;
+                        container.appendChild(div);
+                    });
+                } else {
+                    container.innerHTML = '<p class="text-muted">No hay metas específicas para este plazo.</p>';
+                }
+            });
+        }
+
+        // Manejo del formulario
+        document.getElementById('budgetForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Mostrar spinner
+            document.getElementById('loadingSpinner').style.display = 'block';
+            document.getElementById('resultados').style.display = 'none';
+
+            try {
+                // Recopilar datos del formulario
+                const formData = new FormData(this);
+                
+                // Enviar datos al servidor
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResults(data);
+                } else {
+                    throw new Error(data.error || 'Error en el análisis');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al procesar el análisis: ' + error.message);
+            } finally {
+                // Ocultar spinner
+                document.getElementById('loadingSpinner').style.display = 'none';
+            }
+        });
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar tooltips de Bootstrap si están disponibles
+            if (typeof bootstrap !== 'undefined') {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
