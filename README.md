@@ -1,37 +1,37 @@
 
 # Smart Budget AI 🧠💰
 
-**Sistema de Recomendaciones de Presupuesto Inteligente con Deep Learning**
+**Sistema de recomendaciones de presupuesto inteligente con deep learning**
 
 Smart Budget AI es una aplicación completa que utiliza redes neuronales profundas para analizar la situación financiera personal y generar recomendaciones de presupuesto personalizadas. El sistema combina técnicas avanzadas de machine learning con análisis financiero tradicional para ofrecer consejos precisos y accionables.
 
-## 🌟 Características Principales
+## 🌟 Características principales
 
-### 🤖 Inteligencia Artificial Avanzada
-- **Red Neuronal Profunda**: Modelo con arquitectura optimizada (128-64-32-16 neuronas)
+### 🤖 Inteligencia artificial avanzada
+- **Red neuronal profunda**: Modelo con arquitectura optimizada (128-64-32-16 neuronas)
 - **Feature Engineering Inteligente**: Más de 15 características financieras derivadas
-- **Predicción Personalizada**: Recomendaciones adaptadas al perfil único de cada usuario
-- **Análisis de Riesgo**: Evaluación automática del nivel de riesgo financiero
+- **Predicción personalizada**: Recomendaciones adaptadas al perfil único de cada usuario
+- **Análisis de riesgo**: Evaluación automática del nivel de riesgo financiero
 
-### 📊 Análisis Financiero Completo
-- **Score de Salud Financiera**: Puntuación de 0-100 basada en múltiples factores
-- **Ratios Financieros**: Análisis de deuda/ingresos, gastos/ingresos, capacidad de ahorro
-- **Fondo de Emergencia**: Evaluación y recomendaciones para el fondo de emergencia
-- **Metas Financieras**: Objetivos personalizados a corto, mediano y largo plazo
+### 📊 Análisis financiero completo
+- **Score de salud financiera**: Puntuación de 0-100 basada en múltiples factores
+- **Ratios financieros**: Análisis de deuda/ingresos, gastos/ingresos, capacidad de ahorro
+- **Fondo de emergencia**: Evaluación y recomendaciones para el fondo de emergencia
+- **Metas financieras**: Objetivos personalizados a corto, mediano y largo plazo
 
-### 🎯 Recomendaciones Personalizadas
-- **Plan de Presupuesto Detallado**: Distribución óptima por categorías
-- **Estrategias de Ahorro**: Recomendaciones específicas para aumentar ahorros
-- **Reducción de Gastos**: Identificación de áreas de optimización
-- **Mejora Crediticia**: Consejos para mejorar el score crediticio
+### 🎯 Recomendaciones personalizadas
+- **Plan de presupuesto detallado**: Distribución óptima por categorías
+- **Estrategias de ahorro**: Recomendaciones específicas para aumentar ahorros
+- **Reducción de gastos**: Identificación de áreas de optimización
+- **Mejora crediticia**: Consejos para mejorar el score crediticio
 
-### 🌐 Interfaz Web Moderna
-- **Diseño Responsivo**: Optimizado para desktop y móvil
-- **Visualizaciones Interactivas**: Gráficos dinámicos con Chart.js
-- **UX Intuitiva**: Formularios guiados y resultados claros
-- **Tiempo Real**: Análisis instantáneo con feedback visual
+### 🌐 Interfaz web moderna
+- **Diseño responsivo**: Optimizado para desktop y móvil
+- **Visualizaciones interactivas**: Gráficos dinámicos con Chart.js
+- **UX intuitiva**: Formularios guiados y resultados claros
+- **Tiempo real**: Análisis instantáneo con feedback visual
 
-## 🏗️ Arquitectura del Sistema
+## 🏗️ Arquitectura del sistema
 
 ```
 smart-budget-ai/
@@ -63,7 +63,7 @@ smart-budget-ai/
 - 4GB RAM mínimo (8GB recomendado)
 - 2GB espacio en disco
 
-### Instalación en 3 Pasos
+### Instalación en 3 pasos
 
 1. **Clonar el repositorio**
 ```bash
