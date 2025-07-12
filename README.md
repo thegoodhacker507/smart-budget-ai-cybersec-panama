@@ -1,307 +1,142 @@
+# Smart Budget AI - CyberSec Panama UTP
 
-# Smart Budget AI 🧠💰
+## Descripción del Proyecto
 
-**Sistema de recomendaciones de presupuesto inteligente con deep learning**
+Smart Budget AI es una aplicación inteligente de gestión presupuestaria desarrollada como parte del curso de Ciberseguridad en la Universidad Tecnológica de Panamá (UTP). Este proyecto integra inteligencia artificial, análisis financiero y medidas de ciberseguridad avanzadas.
 
-Smart Budget AI es una aplicación completa que utiliza redes neuronales profundas para analizar la situación financiera personal y generar recomendaciones de presupuesto personalizadas. El sistema combina técnicas avanzadas de machine learning con análisis financiero tradicional para ofrecer consejos precisos y accionables.
+## Características Principales
 
-## 🌟 Características principales
+### 🤖 Inteligencia Artificial
+- Análisis predictivo de gastos
+- Recomendaciones personalizadas de ahorro
+- Detección de patrones de gasto anómalos
+- Machine Learning para optimización financiera
 
-### 🤖 Inteligencia artificial avanzada
-- **Red neuronal profunda**: Modelo con arquitectura optimizada (128-64-32-16 neuronas)
-- **Feature Engineering Inteligente**: Más de 15 características financieras derivadas
-- **Predicción personalizada**: Recomendaciones adaptadas al perfil único de cada usuario
-- **Análisis de riesgo**: Evaluación automática del nivel de riesgo financiero
+### 🔒 Ciberseguridad
+- Encriptación de datos financieros
+- Autenticación multifactor
+- Monitoreo de amenazas en tiempo real
+- Protección contra fraudes
+- Cumplimiento de estándares de seguridad
 
-### 📊 Análisis financiero completo
-- **Score de salud financiera**: Puntuación de 0-100 basada en múltiples factores
-- **Ratios financieros**: Análisis de deuda/ingresos, gastos/ingresos, capacidad de ahorro
-- **Fondo de emergencia**: Evaluación y recomendaciones para el fondo de emergencia
-- **Metas financieras**: Objetivos personalizados a corto, mediano y largo plazo
+### 📊 Análisis Financiero
+- Dashboard interactivo
+- Visualizaciones de datos avanzadas
+- Reportes automáticos
+- Alertas inteligentes
 
-### 🎯 Recomendaciones personalizadas
-- **Plan de presupuesto detallado**: Distribución óptima por categorías
-- **Estrategias de ahorro**: Recomendaciones específicas para aumentar ahorros
-- **Reducción de gastos**: Identificación de áreas de optimización
-- **Mejora crediticia**: Consejos para mejorar el score crediticio
-
-### 🌐 Interfaz web moderna
-- **Diseño responsivo**: Optimizado para desktop y móvil
-- **Visualizaciones interactivas**: Gráficos dinámicos con Chart.js
-- **UX intuitiva**: Formularios guiados y resultados claros
-- **Tiempo real**: Análisis instantáneo con feedback visual
-
-## 🏗️ Arquitectura del sistema
+## Estructura del Proyecto
 
 ```
-smart-budget-ai/
-├── src/                          # Código fuente principal
-│   ├── __init__.py
-│   ├── data_processor.py         # Procesamiento de datos y feature engineering
-│   ├── budget_model.py           # Red neuronal y modelo de predicción
-│   ├── financial_advisor.py      # Motor de análisis y recomendaciones
-│   └── train.py                  # Script de entrenamiento del modelo
-├── app/                          # Aplicación web Flask
-│   ├── app.py                    # Servidor web principal
-│   └── templates/
-│       └── index.html            # Interfaz de usuario
-├── models/                       # Modelos entrenados
-├── data/                         # Datos de entrenamiento
-├── docs/                         # Documentación
-├── logs/                         # Logs del sistema
-├── plots/                        # Gráficos y visualizaciones
-├── requirements.txt              # Dependencias Python
-├── README.md                     # Este archivo
-└── GUIA_INSTALACION.md          # Guía detallada de instalación
+smart-budget-ai-cybersec-panama/
+├── app/                    # Aplicación Next.js principal
+├── src/                    # Código fuente Python
+├── docs/                   # Documentación del proyecto
+├── graficos/              # Gráficos y visualizaciones
+├── presentacion/          # Materiales de presentación
+├── utils/                 # Utilidades y herramientas
+└── README.md              # Este archivo
 ```
 
-## 🚀 Instalación Rápida
+## Tecnologías Utilizadas
+
+- **Frontend**: Next.js, React, TypeScript, Tailwind CSS
+- **Backend**: Python, Flask, FastAPI
+- **IA/ML**: scikit-learn, pandas, numpy
+- **Seguridad**: bcrypt, JWT, SSL/TLS
+- **Visualización**: Plotly, Chart.js
+- **Base de Datos**: SQLite, PostgreSQL
+
+## Instalación y Configuración
 
 ### Prerrequisitos
-- Python 3.8 o superior
-- pip (gestor de paquetes de Python)
-- 4GB RAM mínimo (8GB recomendado)
-- 2GB espacio en disco
+- Node.js 18+
+- Python 3.8+
+- Git
 
-### Instalación en 3 pasos
+### Instalación
 
-1. **Clonar el repositorio**
+1. Clonar el repositorio:
 ```bash
 git clone https://github.com/thegoodhacker507/smart-budget-ai-cybersec-panama.git
 cd smart-budget-ai-cybersec-panama
 ```
 
-2. **Instalar dependencias**
+2. Instalar dependencias de la aplicación:
 ```bash
+cd app
+npm install
+```
+
+3. Instalar dependencias de Python:
+```bash
+cd ../src
 pip install -r requirements.txt
 ```
 
-3. **Ejecutar la aplicación**
+4. Ejecutar la aplicación:
 ```bash
-python app/app.py
+# Terminal 1 - Frontend
+cd app
+npm run dev
+
+# Terminal 2 - Backend
+cd src
+python run.py
 ```
 
-¡Listo! Abre tu navegador en `http://localhost:5000`
+## Características de Ciberseguridad
 
-## 📋 Guía de Uso
+### Protección de Datos
+- Encriptación AES-256 para datos sensibles
+- Hashing seguro de contraseñas con bcrypt
+- Transmisión segura con HTTPS/TLS
 
-### 1. Análisis Financiero Personal
+### Monitoreo y Detección
+- Sistema de detección de intrusiones
+- Análisis de comportamiento anómalo
+- Logs de seguridad detallados
+- Alertas en tiempo real
 
-1. **Completa el formulario** con tu información financiera:
-   - Datos personales (edad, dependientes, educación)
-   - Ingresos y gastos mensuales
-   - Ahorros y deudas actuales
-   - Score crediticio
+### Cumplimiento
+- Estándares PCI DSS para datos financieros
+- Políticas de privacidad GDPR
+- Auditorías de seguridad automatizadas
 
-2. **Obtén tu análisis** instantáneo:
-   - Score de salud financiera
-   - Nivel de riesgo
-   - Presupuesto recomendado
-   - Ratios financieros clave
+## Documentación
 
-3. **Revisa las recomendaciones**:
-   - Plan de presupuesto detallado
-   - Estrategias de optimización
-   - Metas financieras personalizadas
+La documentación completa del proyecto se encuentra en:
+- `docs/SmartBudgetAI_CyberSec_Panama_UTP.md` - Documentación técnica completa
+- `src/GUIA_INSTALACION.md` - Guía detallada de instalación
+- `src/docs/` - Documentación adicional y artículos académicos
 
-### 2. Interpretación de Resultados
+## Contribución
 
-#### Score de Salud Financiera
-- **80-100**: Excelente situación financiera
-- **60-79**: Buena salud financiera con áreas de mejora
-- **40-59**: Situación regular, requiere atención
-- **0-39**: Situación crítica, necesita acción inmediata
-
-#### Niveles de Riesgo
-- **Bajo**: Finanzas estables, bajo riesgo de problemas
-- **Medio**: Algunas áreas de preocupación, monitoreo necesario
-- **Alto**: Riesgo significativo, acción correctiva urgente
-
-### 3. Casos de Uso Típicos
-
-#### Joven Profesional
-- Optimización de gastos variables
-- Construcción de fondo de emergencia
-- Planificación para objetivos a largo plazo
-
-#### Familia Establecida
-- Balance entre gastos familiares y ahorros
-- Planificación educativa para hijos
-- Optimización de deudas hipotecarias
-
-#### Freelancer/Trabajador Independiente
-- Manejo de ingresos variables
-- Fondo de emergencia robusto
-- Planificación fiscal y de retiro
-
-## 🔧 Configuración Avanzada
-
-### Variables de Entorno
-
-```bash
-# Configuración del servidor
-export PORT=5000
-export DEBUG=False
-
-# Configuración del modelo
-export MODEL_PATH=models/smart_budget_model.h5
-export TRAINING_SAMPLES=5000
-```
-
-### Entrenamiento Personalizado
-
-```bash
-# Entrenar modelo con datos personalizados
-python src/train.py --samples 10000 --epochs 150
-
-# Entrenar solo con validación
-python src/train.py --skip-training --model-name custom_model
-```
-
-### Configuración de Producción
-
-Para despliegue en producción, considera:
-
-1. **Servidor WSGI** (Gunicorn, uWSGI)
-2. **Proxy reverso** (Nginx, Apache)
-3. **Base de datos** para persistencia
-4. **Monitoreo** y logging avanzado
-
-## 📊 Rendimiento del Modelo
-
-### Métricas de Evaluación
-- **MSE**: < 50,000 (Error cuadrático medio)
-- **MAE**: < 150 (Error absoluto medio)
-- **MAPE**: < 8% (Error porcentual absoluto medio)
-- **R²**: > 0.85 (Coeficiente de determinación)
-
-### Características del Dataset
-- **5,000+ muestras** sintéticas para entrenamiento
-- **15+ features** financieras y demográficas
-- **Validación cruzada** para robustez
-- **Regularización** para prevenir overfitting
-
-## 🛠️ Desarrollo y Contribución
-
-### Estructura del Código
-
-#### `data_processor.py`
-- Generación de datos sintéticos
-- Feature engineering avanzado
-- Preprocesamiento y normalización
-- Manejo de datos faltantes
-
-#### `budget_model.py`
-- Arquitectura de red neuronal
-- Entrenamiento y validación
-- Predicción y evaluación
-- Persistencia del modelo
-
-#### `financial_advisor.py`
-- Análisis de salud financiera
-- Generación de recomendaciones
-- Cálculo de ratios financieros
-- Planificación de metas
-
-#### `app.py`
-- API REST para análisis
-- Interfaz web Flask
-- Manejo de errores
-- Logging y monitoreo
-
-### Extensiones Posibles
-
-1. **Integración con APIs bancarias** para datos reales
-2. **Análisis de tendencias** temporales
-3. **Recomendaciones de inversión** básicas
-4. **Alertas automáticas** por email/SMS
-5. **Dashboard administrativo** para múltiples usuarios
-
-## 🔍 Solución de Problemas
-
-### Problemas Comunes
-
-#### Error: "Modelo no encontrado"
-```bash
-# Entrenar un nuevo modelo
-python src/train.py --samples 1000
-```
-
-#### Error: "Dependencias faltantes"
-```bash
-# Reinstalar dependencias
-pip install -r requirements.txt --force-reinstall
-```
-
-#### Error: "Puerto en uso"
-```bash
-# Cambiar puerto
-export PORT=8000
-python app/app.py
-```
-
-#### Predicciones inconsistentes
-- Verificar calidad de datos de entrada
-- Re-entrenar modelo con más datos
-- Revisar feature engineering
-
-### Logs y Debugging
-
-```bash
-# Ver logs de entrenamiento
-tail -f training.log
-
-# Ejecutar en modo debug
-export DEBUG=True
-python app/app.py
-```
-
-## 📈 Roadmap y Mejoras Futuras
-
-### Versión 2.0 (Próxima)
-- [ ] Integración con APIs bancarias reales
-- [ ] Análisis de tendencias históricas
-- [ ] Recomendaciones de inversión básicas
-- [ ] Sistema de alertas automáticas
-- [ ] Dashboard multi-usuario
-
-### Versión 3.0 (Futuro)
-- [ ] Análisis predictivo avanzado
-- [ ] Integración con criptomonedas
-- [ ] Asesoramiento fiscal automatizado
-- [ ] Planificación de retiro completa
-- [ ] API pública para desarrolladores
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Por favor:
+Este proyecto fue desarrollado como parte del curso de Ciberseguridad en UTP Panama. Para contribuir:
 
 1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+2. Crear una rama para tu feature (`git checkout -b feature/AmazingFeature`)
 3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
 4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+5. Abrir un Pull Request
 
-## 📞 Soporte
+## Licencia
 
-- **Documentación**: Ver `GUIA_INSTALACION.md` para instrucciones detalladas
-- **Issues**: Reportar problemas en GitHub Issues
-- **Discusiones**: Únete a las discusiones del proyecto
+Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 
-## 🏆 Reconocimientos
+## Contacto
 
-- **TensorFlow/Keras**: Framework de deep learning
-- **Flask**: Framework web ligero
-- **Chart.js**: Visualizaciones interactivas
-- **Bootstrap**: Framework CSS responsivo
-- **Scikit-learn**: Herramientas de machine learning
+**Desarrollador**: TheGoodHacker507
+**Email**: albinabdiel@gmail.com
+**Universidad**: Universidad Tecnológica de Panamá (UTP)
+**Curso**: Ciberseguridad
+
+## Agradecimientos
+
+- Universidad Tecnológica de Panamá (UTP)
+- Profesores del curso de Ciberseguridad
+- Comunidad de desarrolladores de código abierto
 
 ---
 
-**Smart Budget AI** - Democratizando el asesoramiento financiero a través de la inteligencia artificial.
-
-*Desarrollado con ❤️ para ayudar a las personas a tomar mejores decisiones financieras.*
+*Desarrollado con ❤️ para el curso de Ciberseguridad en UTP Panama*
